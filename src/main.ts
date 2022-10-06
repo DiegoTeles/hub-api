@@ -6,7 +6,7 @@ import { winstonConfig } from './configs/winston.config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './filters/http-exception.filter';
 
-const port = process.env.PORT || 3006;
+const port = process.env.PORT || 3000;
 
 async function bootstrap() {
   const logger = WinstonModule.createLogger(winstonConfig);

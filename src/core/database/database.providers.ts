@@ -23,9 +23,15 @@ export const databaseProviders = [
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
-      sequelize.addModels([Transaction, User]);
-      await sequelize.sync();
-      return sequelize;
+      try {
+        sequelize.authenticate();
+        console.log('Database connected successfully!');
+        sequelize.addModels([Transaction, User]);
+        await sequelize.sync();
+        return sequelize;
+      } catch (error) {
+        console.error('Unable to connect to the database:', error);
+      }
     },
   },
 ];
