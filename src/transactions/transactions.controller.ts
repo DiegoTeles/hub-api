@@ -23,8 +23,8 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '../auth/role.decorator';
 
 @Controller('transaction')
-@Role(UserRole.USER)
-@UseGuards(AuthGuard(), RolesGuard)
+/* @Role(UserRole.USER)
+@UseGuards(AuthGuard(), RolesGuard) */
 @UseFilters(AllExceptionsFilter)
 export class TransactionController {
   constructor(private transactionService: TransactionService) {}

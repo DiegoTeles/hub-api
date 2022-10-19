@@ -10,26 +10,25 @@ export const databaseProviders = [
     useFactory: async () => {
       let config;
       switch (process.env.NODE_ENV) {
-        case 'DEVELOPMENT':
+        case 'development':
           config = databaseConfig.development;
           break;
-        case 'TEST':
-          config = databaseConfig.test;
-          break;
-        case 'PRODUCTION':
+        case 'production':
           config = databaseConfig.production;
           break;
         default:
           config = databaseConfig.development;
       }
+
       const sequelize = new Sequelize(config);
       try {
         sequelize.authenticate();
-        console.log('Database connected successfully!');
         sequelize.addModels([Transaction, User]);
         await sequelize.sync();
+        console.log('Database connected successfully!');
         return sequelize;
       } catch (error) {
+        console.log('config :>> ', config);
         console.error('Unable to connect to the database:', error);
       }
     },

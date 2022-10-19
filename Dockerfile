@@ -5,7 +5,7 @@ LABEL mantainer="Telles TT:@UnicornCoder"
 LABEL version="1.0"
 
 # Create app directory
-WORKDIR /var/www/back
+WORKDIR /var/www/api-hub
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
@@ -20,4 +20,4 @@ COPY . .
 RUN npm run build
 
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "dist/main.js", "npm", "run", "start:dev" ]
