@@ -17,18 +17,17 @@ export const databaseProviders = [
           config = databaseConfig.production;
           break;
         default:
-          config = databaseConfig.development;
+          config = databaseConfig.local;
       }
 
-      const sequelize = new Sequelize(config);
       try {
+        const sequelize = new Sequelize(config);
         sequelize.authenticate();
         sequelize.addModels([Transaction, User]);
         await sequelize.sync();
         console.log('Database connected successfully!');
         return sequelize;
       } catch (error) {
-        console.log('config :>> ', config);
         console.error('Unable to connect to the database:', error);
       }
     },

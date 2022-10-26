@@ -1,23 +1,24 @@
-# Base image
-FROM node:latest
+###################
+# BUILD FOR LOCAL DEVELOPMENT
+###################
 
-LABEL mantainer="Telles TT:@UnicornCoder"
-LABEL version="1.0"
+FROM node:18 As development
+
+RUN apt-get update && apt-get install -y openssl
 
 # Create app directory
-WORKDIR /var/www/api-hub
+WORKDIR /usr/src/app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
+# Copy application dependency manifests to the container image.
+# A wildcard is used to ensure copying both package.json AND package-lock.json (when available).
+# Copying this first prevents re-running npm install on every code change.
+COPY --chown=node:node package*.json ./
 
-# Install app dependencies
-RUN npm install
+# Install app dependencies using the `npm ci` command instead of `npm install`
+RUN npm ci
 
 # Bundle app source
-COPY . .
+COPY --chown=node:node . .
 
-# Creates a "dist" folder with the production build
-RUN npm run build
-
-# Start the server using the production build
-CMD [ "node", "dist/main.js", "npm", "run", "start:dev" ]
+# Use the node user from the image (instead of the root user)
+USER node
